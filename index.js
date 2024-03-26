@@ -2,6 +2,7 @@ const $status = document.getElementById("status");
 const $log = document.getElementById("log");
 const $teacher = document.getElementById("teacher");
 const $period = document.getElementById("period");
+const $recordInfo = document.getElementById("record-info"); // New element to display record info
 
 const currentTime = () => {
     return new Date().toString().slice(0, -31);
@@ -24,7 +25,7 @@ const handleNewRecord = async (serialNumber, logData, time, teacher, period) => 
                 period,
             }),
         });
-        alert('Record saved successfully');
+        updateRecordInfo(serialNumber, logData, time, teacher, period); // Update record info on success
     } catch (error) {
         console.error('Failed to save record on the server:', error);
         alert('Failed to save record on the server.');
@@ -61,6 +62,18 @@ const activateNFC = () => {
         await handleNewRecord(serialNumber, currentStatus, time, teacher, period);
         console.log(e);
     };
+};
+
+// Function to update record info on the site
+const updateRecordInfo = (serialNumber, logData, time, teacher, period) => {
+    $recordInfo.innerHTML = `
+        <h4>Record Information:</h4>
+        <p>Serial Number: ${serialNumber}</p>
+        <p>Log Data: ${logData}</p>
+        <p>Time: ${time}</p>
+        <p>Teacher: ${teacher}</p>
+        <p>Period: ${period}</p>
+    `;
 };
 
 document.getElementById("start-btn").onclick = (e) => {
