@@ -11,7 +11,7 @@ let currentStatus = "in"; // Set default status to "in"
 
 const handleNewRecord = async (serialNumber, logData, time, teacher, period) => {
     try {
-        await fetch('https://your-server-url.com/record', { // Specify your server URL here
+        await fetch('https://period-teacher-separate-db.onrender.com/record', { // Specify your server URL here
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
