@@ -24,6 +24,7 @@ const abelRecordSchema = new mongoose.Schema({
     logData: String,
     time: String,
     period: String,
+    subject: String,
 }, { collection: 'abel_records' });
 
 const kevinRecordSchema = new mongoose.Schema({
@@ -31,6 +32,7 @@ const kevinRecordSchema = new mongoose.Schema({
     logData: String,
     time: String,
     period: String,
+    subject: String,
 }, { collection: 'kevin_records' });
 
 const sonuRecordSchema = new mongoose.Schema({
@@ -38,6 +40,7 @@ const sonuRecordSchema = new mongoose.Schema({
     logData: String,
     time: String,
     period: String,
+    subject: String,
 }, { collection: 'sonu_records' });
 
 // Create separate models based on the schemas
