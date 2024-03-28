@@ -48,36 +48,6 @@ const AbelRecord = mongoose.model('AbelRecord', abelRecordSchema);
 const KevinRecord = mongoose.model('KevinRecord', kevinRecordSchema);
 const SonuRecord = mongoose.model('SonuRecord', sonuRecordSchema);
 
-// Create a schema for class counts
-const classCountSchema = new mongoose.Schema({
-    teacher: String,
-    subject: String,
-    classCount: { type: Number, default: 0 } // Initialize class count to 0
-});
-
-const ClassCount = mongoose.model('ClassCount', classCountSchema);
-
-// Endpoint to start a class
-app.post('/start-class', async (req, res) => {
-    const { teacher, subject } = req.body;
-    try {
-        // Find or create the class count document for the teacher and subject
-        let classCount = await ClassCount.findOne({ teacher, subject });
-        if (!classCount) {
-            classCount = new ClassCount({ teacher, subject });
-        }
-
-        // Increment the class count and save
-        classCount.classCount++;
-        await classCount.save();
-
-        res.status(200).send('Class started successfully');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-    }
-});
-
 // Endpoint to receive check-in and check-out data
 app.post('/record', async (req, res) => {
     const { serialNumber, logData, time, teacher, period,subject } = req.body;
