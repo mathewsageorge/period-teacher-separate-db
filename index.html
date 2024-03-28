@@ -1,92 +1,56 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const app = express();
-const cors = require('cors');
-
-app.use(express.json());
-app.use(cors({ origin: "*" }));
-
-const port = process.env.PORT || 3000;
-
-// Connect to MongoDB Atlas
-mongoose.connect('mongodb+srv://mathewsgeorge202:ansu@cluster0.ylyaonw.mongodb.net/hai', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log("MongoDB connected successfully");
-}).catch(err => {
-    console.error("MongoDB connection error:", err);
-});
-
-// Create separate schemas for each teacher's collection
-const abelRecordSchema = new mongoose.Schema({
-    serialNumber: String,
-    logData: String,
-    time: String,
-    period: String,
-}, { collection: 'abel_records' });
-
-const kevinRecordSchema = new mongoose.Schema({
-    serialNumber: String,
-    logData: String,
-    time: String,
-    period: String,
-}, { collection: 'kevin_records' });
-
-const sonuRecordSchema = new mongoose.Schema({
-    serialNumber: String,
-    logData: String,
-    time: String,
-    period: String,
-}, { collection: 'sonu_records' });
-
-// Create separate models based on the schemas
-const AbelRecord = mongoose.model('AbelRecord', abelRecordSchema);
-const KevinRecord = mongoose.model('KevinRecord', kevinRecordSchema);
-const SonuRecord = mongoose.model('SonuRecord', sonuRecordSchema);
-
-// Endpoint to receive check-in and check-out data
-app.post('/record', async (req, res) => {
-    const { serialNumber, logData, time, teacher, period } = req.body;
-    try {
-        let recordModel;
-
-        // Determine which teacher was selected and choose the appropriate model
-        switch (teacher.toUpperCase()) {
-            case 'ABEL':
-                recordModel = AbelRecord;
-                break;
-            case 'KEVIN':
-                recordModel = KevinRecord;
-                break;
-            case 'SONU':
-                recordModel = SonuRecord;
-                break;
-            default:
-                recordModel = null;
-        }
-
-        if (!recordModel) {
-            return res.status(400).send('Invalid Teacher');
-        }
-
-        // Save the record to the appropriate MongoDB collection
-        const record = new recordModel({
-            serialNumber,
-            logData,
-            time,
-            period,
-        });
-        await record.save();
-
-        res.status(201).send('Record saved successfully');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-    }
-});
-
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h2>WebNFC Attendance</h2>
+    <div id="status">
+        <h4>Hi There 👋</h4>
+        <button id="start-btn">Start</button>
+    </div>
+    <div>
+        <label for="teacher">Teacher Name:</label>
+        <select id="teacher">
+            <option value="ABEL">ABEL</option>
+            <option value="KEVIN">KEVIN</option>
+            <option value="SONU">SONU</option>
+            <!-- Add more options for other teachers -->
+        </select>
+    </div>
+    <div>
+        <label for="period">Period:</label>
+        <select id="period">
+            <option value="Period 1">Period 1</option>
+            <option value="Period 2">Period 2</option>
+            <option value="Period 3">Period 3</option>
+            <option value="Period 4">Period 4</option>
+            <option value="Period 5">Period 5</option>
+            <option value="Period 6">Period 6</option>
+            <!-- Add more options for other periods -->
+        </select>
+    </div>
+    <div>
+        <label for="subject">Subject:</label>
+        <select id="subject">
+            <option value="CD(CST302)">CD(CST302)</option>
+            <option value="CD(CST305)">CD(CST305)</option>
+            <option value="CD(CST308)">CD(CST308)</option>
+            <!-- Add more options for other subjects -->
+        </select>
+    </div>
+    <div class="check-type">
+       <div>
+            <input type="radio" id="check-in" name="check" checked>
+            <label for="check-in">Check In</label>
+       </div>
+       <!-- Add radio button for check-out if needed -->
+    </div>
+    <div id="log"></div>
+    <!-- Element to display record information -->
+    <div id="record-info"></div>
+    <script src="./index.js"></script>
+</body
