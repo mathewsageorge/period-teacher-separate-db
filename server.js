@@ -50,7 +50,7 @@ const SonuRecord = mongoose.model('SonuRecord', sonuRecordSchema);
 
 // Endpoint to receive check-in and check-out data
 app.post('/record', async (req, res) => {
-    const { serialNumber, logData, time, teacher, period } = req.body;
+    const { serialNumber, logData, time, teacher, period,subject } = req.body;
     try {
         let recordModel;
 
@@ -79,6 +79,7 @@ app.post('/record', async (req, res) => {
             logData,
             time,
             period,
+            subject,
         });
         await record.save();
 
