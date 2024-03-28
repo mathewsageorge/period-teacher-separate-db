@@ -48,8 +48,7 @@ const AbelRecord = mongoose.model('AbelRecord', abelRecordSchema);
 const KevinRecord = mongoose.model('KevinRecord', kevinRecordSchema);
 const SonuRecord = mongoose.model('SonuRecord', sonuRecordSchema);
 
-
-// Modify the schema for class counts
+// Create a schema for class counts
 const classCountSchema = new mongoose.Schema({
     teacher: String,
     subject: String,
