@@ -101,3 +101,28 @@ $subject.addEventListener("change", (e) => {
         e.target.value
     );
 });
+
+// Add an event listener to the "Start Class" button
+document.getElementById('start-class-btn').addEventListener('click', async () => {
+    const teacher = document.getElementById('teacher').value;
+    const subject = document.getElementById('subject').value;
+
+    try {
+        const response = await fetch('/start-class', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ teacher, subject })
+        });
+
+        if (response.ok) {
+            alert('Class started successfully');
+        } else {
+            alert('Failed to start class');
+        }
+    } catch (error) {
+        console.error('Error starting class:', error);
+        alert('Error starting class');
+    }
+});
