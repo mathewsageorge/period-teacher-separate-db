@@ -13,7 +13,7 @@ let currentStatus = "in";
 
 const handleNewRecord = async (serialNumber, logData, time, teacher, period, subject) => {
     try {
-        await fetch('https://period-teacher-separate-db.onrender.com/record', {
+        await fetch('/record', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -85,10 +85,6 @@ document.getElementById("start-btn").onclick = (e) => {
 
 document.getElementById("check-in").onchange = (e) => {
     e.target.checked && (currentStatus = "in");
-};
-
-document.getElementById("check-out").onchange = (e) => {
-    e.target.checked && (currentStatus = "out");
 };
 
 $subject.addEventListener("change", (e) => {
